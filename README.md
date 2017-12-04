@@ -1,6 +1,6 @@
 # Spark cluster deploy tools for Openstack
 
-This project provides scripts for Apache Spark cluster autodeploy in any Openstack environment with optional useful tools:
+This project provides scripts for Apache Spark cluster autodeploy in Pouta environment with optional useful tools. These playbooks may help you to install following:
 
 * Openstack Swift seamless integration
 * Apache Hadoop
@@ -11,13 +11,8 @@ This project provides scripts for Apache Spark cluster autodeploy in any Opensta
 * NFS share mounts
 * Ganglia
 
-Our tools do not need prebuilt images; you can just use vanilla ones. Supported distros are listed at the end of this page.
+This repositories is customized to run on Pouta clouds and is forked from https://github.com/ispras/spark-openstack.git developed by IPRAS (http://www.ispras.ru/en/). This repository is distributed with Apache 2.0 license. You are welcome to contribute.
 
-All the versions of Apache Spark since 1.0 are supported; you are free to choose needed versions of Spark and Hadoop.
-
-Developed in [Institute for System Programming of the Russian Academy of Sciences](http://www.ispras.ru/en/) and distributed with Apache 2.0 license.
-
-You are welcome to contribute.
 
 
 Installation
@@ -93,7 +88,7 @@ Running
     * `--spark-worker-mem-mb <mem>` don't auto-detect spark worker memory and use specified value, can be useful if other
         processes on slave nodes (e.g. python) need more memory, default for 10Gb-20Gb RAM slaves is to leave 2Gb to
         system/other processes; example: `--spark-worker-mem-mb 10240`
-    * `--spark-master-instance-type <instance-type>` use another instance flavor for master
+    * `--master-instance-type <instance-type>` use another instance flavor for master
 
     Example:
                 ./spark-openstack -k borisenko -i /home/al/.ssh/id_rsa -s 10 \
