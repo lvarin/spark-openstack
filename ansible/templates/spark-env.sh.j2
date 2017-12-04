@@ -13,6 +13,7 @@ export SPARK_WORKER_CORES={{spark_worker_cores}}
 export HADOOP_HOME="{{hadoop_home}}"
 export HADOOP_CONF_DIR="{{ hadoop_home }}/etc/hadoop"
 export SPARK_MASTER_IP="{{ active_master_ip }}"
+export SPARK_MASTER_HOST="{{ active_master_ip }}"
 #export MASTER=`cat /root/spark-ec2/cluster-url`
 
 export SPARK_SUBMIT_LIBRARY_PATH="$SPARK_SUBMIT_LIBRARY_PATH:{{hadoop_home}}/lib/native/"

@@ -1,5 +1,4 @@
 ---
-
 - hosts: localhost
   tasks:
     - name: create directory for ssh-keys if doesn't exist
@@ -12,7 +11,7 @@
   any_errors_fatal: true
   tasks:
     - name: Check if instances really got floating IPs
-      when: hostvars[inventory_hostname].openstack.public_v4 == ''
+      when: hostvars[inventory_hostname].openstack.private_v4 == ''
       fail: msg="One of the instances didn't get floating IP address"
   tags: prepare
 
@@ -25,22 +24,23 @@
     - name: Wait for ssh-server to start
       local_action:
         module: wait_for
-          host="{{ hostvars[inventory_hostname].openstack.public_v4 }}"
+          host="{{ hostvars[inventory_hostname].openstack.private_v4 }}"
           port=22
           search_regex=OpenSSH
           delay=3
           timeout=300
-#    - debug: msg="Checking ssh for {{ hostvars[inventory_hostname].openstack.public_v4 }}"
+    - debug: msg="Checking ssh for{{ hostvars[inventory_hostname].openstack.private_v4 }}"
+    - debug: msg="Checking ssh for{{inventory_hostname}}"
   tags: prepare
 
 - hosts: "{{ cluster_name }}_master:{{ cluster_name }}_slaves"
   gather_facts: no
   any_errors_fatal: true
   tasks:
-    - name: install Python 2 if missing
-      raw: test -e /usr/bin/python || (sudo apt -y update && sudo apt install -y python-minimal)
-      delay: 10
-  tags: prepare
+    #- name: install Python 2 if missing
+    #  raw: test -e /usr/bin/python || (sudo apt -y update && sudo apt install -y python-minimal)
+    #  delay: 10
+ # tags: prepare
 
 - hosts: "{{ cluster_name }}_master"
   tasks:
@@ -55,12 +55,14 @@
 
 - hosts: "{{ cluster_name }}_master:{{ cluster_name }}_slaves"
   become: True
+  gather_facts: no
   become_user: root
   vars:
-    hadoop_user: ubuntu
+    hadoop_user: cloud-user
   tasks:
     - name: deploy authorized keys
       authorized_key: user={{ hadoop_user }} key={{ lookup('file', 'files/keys/{{ cluster_name }}.pub') }}
+    - debug: msg="Hosts are {{ cluster_name }}_master:{{ cluster_name }}_slaves"
 
     - name: deploy ssh-keys
       copy: src="files/keys/{{ cluster_name }}" dest="/home/{{ hadoop_user }}/.ssh/{{ cluster_name }}"

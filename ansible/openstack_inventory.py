@@ -113,9 +113,15 @@ def get_host_groups(inventory, refresh=False):
 
 
 def append_hostvars(hostvars, groups, key, server, namegroup=False):
-    hostvars[key] = dict(
-        ansible_ssh_host=server['interface_ip'],
-        openstack=server)
+    if server['interface_ip'] != "":
+        hostvars[key] = dict(
+            ansible_ssh_host=server['interface_ip'],
+            openstack=server)
+    else:
+        hostvars[key] = dict(
+            ansible_ssh_host=server['private_v4'],
+            openstack=server)
+
     for group in get_groups_from_server(server, namegroup=namegroup):
         groups[group].append(key)
 
@@ -234,3 +240,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
