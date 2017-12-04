@@ -83,7 +83,7 @@ parser.add_argument("--spark-version", default="1.6.2", help="Spark version to u
 parser.add_argument("--hadoop-version", help="Hadoop version to use")
 parser.add_argument("--boot-from-volume", default=False, help="Should the cluster be based on Cinder volumes. "
                                                               "Use it wisely")
-parser.add_argument("--hadoop-user", default="ubuntu", help="User to use/create for cluster members")
+parser.add_argument("--hadoop-user", default="cloud-user", help="User to use/create for cluster members")
 parser.add_argument("--ansible-bin", help="path to ansible (and ansible-playbook, default='')")
 parser.add_argument("--swift-username", help="Username for Swift object storage. If not specified, swift integration "
                                              "is commented out in core-site.xml. You can also use OS_SWIFT_USERNAME"
@@ -325,7 +325,7 @@ def get_ip(role):
 def ssh_output(host, cmd):
     return subprocess.check_output(["ssh", "-q", "-t", "-o", "StrictHostKeyChecking=no",
                                     "-o", "UserKnownHostsFile=/dev/null",
-                                    "-i", args.identity_file, "ubuntu@" + host, cmd])
+                                    "-i", args.identity_file, "cloud-user@" + host, cmd])
 
 def ssh_first_slave(master_ip, cmd):
     #can't do `head -n1 /opt/spark/conf/slaves` since it's not deployed yet
