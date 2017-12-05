@@ -1,4 +1,4 @@
-# Spark cluster deploy tools for Openstack
+# Spark cluster deployment tools for Pouta (and other OpenStack based clouds)
 
 This project provides scripts for Apache Spark cluster autodeploy in Pouta environment with optional useful tools. These playbooks may help you to install following:
 
