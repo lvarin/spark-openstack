@@ -304,7 +304,8 @@ Supported actions:
 
 ## Important notes
 
-* If any of actions fail after all instances are in active state, you can easily rerun the script and it will finish the work quite fast
+* Please remeber to narrow down Security Group rules for the installed cluster, They are currently too open to avoid cluster lock in if cluster is installed from different IP pool and accessed form other.
+*If any of actions fail after all instances are in active state, you can easily rerun the script and it will finish the work quite fast
 * If you have only one virtual network in your Openstack project you may not specify it in options, it will be picked up automatically
 * You may see output for tasks that are actually weren't done (even errors like '{"failed": true, "msg": "'apt_pkg_pref' is undefined"}'). Do not worry please, the skipped tasks are really skipped and such behaviour is related to [this Ansible issue](https://github.com/ansible/ansible/issues/9034)
 * You should use cloud-ready images (e.g for Ubuntu they can be found at https://cloud-images.ubuntu.com/ )
@@ -331,7 +332,7 @@ Guest OS:
 
 ## Known issues
 
-* Limited support for security groups in Openstack. Current rules allow all the traffic ingress and egress.
+* Limited support for security groups in Openstack. Current rules allow all the traffic ingress and egress. PLEASE MODIFY THESE SECURITY GROUPS TO ALLOW THE IP SUBNETS WHICH SHOULD HAVE ACCESS TO CLUSTER.
 * You may notice a role named jupyterhub - it's senseless to use for now.
 * Links to workers and in YARN web-interface are wrong if you don't have DNSaaS in your Openstack (it uses hostnames instead of public IPs)
 
